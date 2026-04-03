@@ -1,0 +1,208 @@
+@font-face {
+  src: url('fonts/FormaDJRCyrillicVariable-VF-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicVariable-VF-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicVariable';
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicMicro-ExtraLight-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicMicro-ExtraLight-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicMicro';
+  font-style: normal;
+  font-weight: 275;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicMicro-Light-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicMicro-Light-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicMicro';
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicMicro-Regular-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicMicro-Regular-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicMicro';
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicMicro-Medium-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicMicro-Medium-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicMicro';
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicMicro-Bold-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicMicro-Bold-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicMicro';
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicText-ExtraLight-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicText-ExtraLight-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicText';
+  font-style: normal;
+  font-weight: 275;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicText-Light-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicText-Light-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicText';
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicText-Regular-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicText-Regular-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicText';
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicText-Medium-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicText-Medium-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicText';
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicText-Bold-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicText-Bold-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicText';
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicDeck-ExtraLight-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicDeck-ExtraLight-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicDeck';
+  font-style: normal;
+  font-weight: 275;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicDeck-Light-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicDeck-Light-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicDeck';
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicDeck-Regular-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicDeck-Regular-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicDeck';
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicDeck-Medium-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicDeck-Medium-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicDeck';
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicDeck-Bold-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicDeck-Bold-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicDeck';
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicDisplay-ExtraLight-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicDisplay-ExtraLight-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicDisplay';
+  font-style: normal;
+  font-weight: 275;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicDisplay-Light-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicDisplay-Light-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicDisplay';
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicDisplay-Regular-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicDisplay-Regular-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicDisplay';
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicDisplay-Medium-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicDisplay-Medium-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicDisplay';
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicDisplay-Bold-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicDisplay-Bold-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicDisplay';
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicBanner-ExtraLight-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicBanner-ExtraLight-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicBanner';
+  font-style: normal;
+  font-weight: 275;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicBanner-Light-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicBanner-Light-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicBanner';
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicBanner-Regular-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicBanner-Regular-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicBanner';
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicBanner-Medium-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicBanner-Medium-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicBanner';
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  src: url('fonts/FormaDJRCyrillicBanner-Bold-Testing.woff2') format("woff2"),
+       url('fonts/FormaDJRCyrillicBanner-Bold-Testing.woff') format("woff");
+  font-family: 'FormaDJRCyrillicBanner';
+  font-style: normal;
+  font-weight: bold;
+}
+
