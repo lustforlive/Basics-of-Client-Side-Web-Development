@@ -1,0 +1,25 @@
+{
+  "name": "basics-of-client-side-web-development",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lustforlive/Basics-of-Client-Side-Web-Development.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lustforlive/Basics-of-Client-Side-Web-Development/issues"
+  },
+  "homepage": "https://github.com/lustforlive/Basics-of-Client-Side-Web-Development#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.1.0",
+    "globals": "^17.4.0"
+  }
+}
