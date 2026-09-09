@@ -1,131 +1,209 @@
-const registerBtn = document.getElementById('registerBtn');
-const modal = document.getElementById('registerModal');
-const closeModalBtn = document.getElementById('closeModalBtn');
-const cancelBtn = document.getElementById('cancelBtn');
-const registerForm = document.getElementById('registerForm');
-const showPasswordBtn = document.getElementById('showPasswordBtn');
-const passwordInput = document.getElementById('password');
+const API_CONFIG = {
+  BASE_URL: 'http://95.163.242.125',
+  RETRY_LIMIT: 3,
+  RETRY_DELAY_MS: 1500
+};
 
-registerBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-    modal.showModal();
-});
+const toastContainer = document.getElementById('toastContainer');
 
-function closeModal() {
-    modal.close();
-    registerForm.reset();
-    clearAllErrors();
+/**
+ * Создает и показывает всплывающее уведомление
+ * @param {string} message
+ * @param {'success' | 'error'} type
+ */
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.setAttribute('role', 'alert');
+
+  const textSpan = document.createElement('span');
+  textSpan.textContent = message;
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'toast-close';
+  closeBtn.setAttribute('aria-label', 'Закрыть уведомление');
+  closeBtn.innerHTML = '&times;';
+
+  toast.appendChild(textSpan);
+  toast.appendChild(closeBtn);
+  toastContainer.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.classList.add('visible');
+  });
+
+  const removeToast = () => {
+    toast.classList.remove('visible');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  };
+
+  closeBtn.addEventListener('click', removeToast);
+  setTimeout(removeToast, 5000);
 }
 
-closeModalBtn.addEventListener('click', closeModal);
-cancelBtn.addEventListener('click', closeModal);
+const themeToggleBtn = document.getElementById('themeToggle');
 
-modal.addEventListener('click', (event) => {
-    if (event.target === modal) {
-        closeModal();
-    }
+themeToggleBtn.addEventListener('click', () => {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('app-theme', newTheme);
 });
 
-function clearAllErrors() {
-    const inputs = ['name', 'email', 'password'];
-    inputs.forEach(fieldId => {
-        const input = document.getElementById(fieldId);
-        const errorDiv = document.getElementById(`${fieldId}-error`);
-        if (input) {
-            input.removeAttribute('aria-invalid');
-        }
-        if (errorDiv) {
-            errorDiv.textContent = '';
-            errorDiv.setAttribute('hidden', '');
-        }
+const galleryContainer = document.getElementById('galleryContainer');
+const galleryLoader = document.getElementById('galleryLoader');
+const reloadGalleryBtn = document.getElementById('reloadGalleryBtn');
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function fetchGalleryWithRetry(retriesLeft = API_CONFIG.RETRY_LIMIT) {
+  const attemptNum = API_CONFIG.RETRY_LIMIT - retriesLeft + 1;
+
+  galleryLoader.classList.add('active');
+  galleryContainer.innerHTML = '';
+  reloadGalleryBtn.disabled = true;
+
+  try {
+    const response = await fetch(`${API_CONFIG.BASE_URL}/images`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
     });
+
+    if (!response.ok) {
+      throw new Error(`Сервер ответил со статусом ${response.status}`);
+    }
+
+    const rawText = await response.text();
+
+    if (!rawText || rawText.trim().startsWith('<')) {
+      throw new Error('Сервер вернул HTML вместо JSON');
+    }
+
+    let data = JSON.parse(rawText);
+    if (typeof data === 'string') {
+      data = JSON.parse(data);
+    }
+
+    if (Array.isArray(data) && data.length > 0 && data[0].status === 'error') {
+      throw new Error(data[0].message || 'Сбой на стороне сервера');
+    }
+
+    galleryLoader.classList.remove('active');
+    reloadGalleryBtn.disabled = false;
+    renderGallery(data);
+  } catch (error) {
+    console.warn(`[Галерея] Попытка №${attemptNum} отклонена:`, error.message);
+
+    if (retriesLeft > 1) {
+      await sleep(API_CONFIG.RETRY_DELAY_MS);
+      return fetchGalleryWithRetry(retriesLeft - 1);
+    }
+
+    galleryLoader.classList.remove('active');
+    reloadGalleryBtn.disabled = false;
+    showToast(`Не удалось загрузить галерею: ${error.message}`, 'error');
+  }
 }
 
-function validateField(field) {
-    const fieldId = field.id;
-    const errorDiv = document.getElementById(`${fieldId}-error`);
-    let errorMessage = '';
-    
-    if (field.validity.valueMissing) {
-        errorMessage = 'Это поле обязательно для заполнения';
-    } else if (field.validity.typeMismatch && field.type === 'email') {
-        errorMessage = 'Введите корректный email адрес';
-    } else if (field.validity.tooShort) {
-        errorMessage = `Пароль должен содержать минимум ${field.minLength} символов (сейчас ${field.value.length})`;
-    }
-    
-    if (errorMessage) {
-        field.setAttribute('aria-invalid', 'true');
-        errorDiv.textContent = errorMessage;
-        errorDiv.removeAttribute('hidden');
-        return false;
-    } else {
-        field.removeAttribute('aria-invalid');
-        errorDiv.textContent = '';
-        errorDiv.setAttribute('hidden', '');
-        return true;
-    }
+function renderGallery(images) {
+  if (!Array.isArray(images) || images.length === 0) {
+    galleryContainer.innerHTML = '<p>Изображения не найдены</p>';
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+
+  images.forEach((item, index) => {
+    const card = document.createElement('article');
+    card.className = 'card';
+
+    const img = document.createElement('img');
+    img.src = item.url || '';
+    img.alt = item.alt || `Изображение ${index + 1}`;
+    img.loading = 'lazy';
+
+    const caption = document.createElement('p');
+    caption.className = 'card-title';
+    caption.textContent = item.description || item.alt || 'Без описания';
+
+    card.appendChild(img);
+    card.appendChild(caption);
+    fragment.appendChild(card);
+  });
+
+  galleryContainer.appendChild(fragment);
 }
 
-const nameInput = document.getElementById('name');
-const emailInput = document.getElementById('email');
+reloadGalleryBtn.addEventListener('click', () => fetchGalleryWithRetry());
 
-[nameInput, emailInput, passwordInput].forEach(input => {
-    input.addEventListener('blur', () => {
-        validateField(input);
+const tempForm = document.getElementById('temperatureForm');
+const submitBtn = document.getElementById('submitBtn');
+const roomInput = document.getElementById('roomInput');
+const tempInput = document.getElementById('tempInput');
+
+tempForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const classValue = roomInput.value.trim();
+  const rawTempValue = tempInput.value.trim();
+
+  if (!classValue || rawTempValue === '') {
+    showToast('Пожалуйста, заполните все поля формы', 'error');
+    return;
+  }
+
+  const numericTemp = parseFloat(rawTempValue);
+  if (Number.isNaN(numericTemp)) {
+    showToast('Температура должна быть числом', 'error');
+    return;
+  }
+
+  const payload = {
+    class: String(classValue),
+    temp: numericTemp
+  };
+
+  submitBtn.disabled = true;
+  roomInput.disabled = true;
+  tempInput.disabled = true;
+
+  try {
+    const response = await fetch(`${API_CONFIG.BASE_URL}/temp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
     });
-});
 
-registerForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    
-    const isNameValid = validateField(nameInput);
-    const isEmailValid = validateField(emailInput);
-    const isPasswordValid = validateField(passwordInput);
-    
-    if (isNameValid && isEmailValid && isPasswordValid) {
-        const formData = new FormData(registerForm);
-        const formDataObj = {};
-        
-        for (let [key, value] of formData.entries()) {
-            formDataObj[key] = value;
-        }
-        
-        console.log('Данные формы:', formDataObj);
-        alert('Регистрация успешна! Данные отправлены в консоль.');
-        closeModal();
-    } else {
-        const firstInvalidField = [nameInput, emailInput, passwordInput].find(
-            input => input.getAttribute('aria-invalid') === 'true'
-        );
-        if (firstInvalidField) {
-            firstInvalidField.focus();
-        }
+    const rawResponse = await response.text();
+    let result = {};
+    try {
+      result = JSON.parse(rawResponse);
+    } catch {
+      result = { message: rawResponse };
     }
-});
 
-let isPasswordVisible = false;
-
-showPasswordBtn.addEventListener('pointerdown', (event) => {
-    event.preventDefault();
-    isPasswordVisible = true;
-    passwordInput.type = 'text';
-});
-
-showPasswordBtn.addEventListener('pointerup', (event) => {
-    event.preventDefault();
-    isPasswordVisible = false;
-    passwordInput.type = 'password';
-});
-
-showPasswordBtn.addEventListener('pointerleave', () => {
-    if (isPasswordVisible) {
-        passwordInput.type = 'password';
-        isPasswordVisible = false;
+    if (!response.ok) {
+      const errorMsg = result.message || `Ошибка сервера: ${response.status}`;
+      throw new Error(errorMsg);
     }
+
+    showToast(result.message || 'Данные температуры успешно отправлены!', 'success');
+    tempForm.reset();
+  } catch (err) {
+    showToast(`Ошибка: ${err.message}`, 'error');
+  } finally {
+    submitBtn.disabled = false;
+    roomInput.disabled = false;
+    tempInput.disabled = false;
+  }
 });
 
-modal.addEventListener('cancel', (event) => {
-    event.preventDefault();
-    closeModal();
+document.addEventListener('DOMContentLoaded', () => {
+  fetchGalleryWithRetry();
 });
